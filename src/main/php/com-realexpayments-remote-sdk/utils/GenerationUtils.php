@@ -132,10 +132,15 @@ class GenerationUtils {
 
 	}
 
+	private static $lastCall;
+
 	private static function pauseExecution() {
-		// pause the execution for 100 milliseconds to avoid name collission
-		// in case many ids are generated in one go
-		usleep( 100000 );
+		if (self::$lastCall > microtime(TRUE) - 0.1) {
+			// pause the execution for 100 milliseconds to avoid name collission
+			// in case many ids are generated in one go
+			usleep( 100000 );
+		}
+		self::$lastCall = microtime(TRUE);
 	}
 
 }
